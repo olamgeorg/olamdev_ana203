@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>olamdev_ana203</title>
+<meta name="description" content="ANA203 General Embryology offline quiz">
+<meta name="theme-color" content="#0f766e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%230f766e'/%3E%3Ctext x='256' y='330' font-size='240' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3EA2%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230f766e'/%3E%3Ctext x='256' y='330' font-size='240' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'%3EA2%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <button id="btnBack" class="icon-btn" aria-label="Back" hidden>&larr;</button>
+  <h1 id="title">olamdev_ana203</h1>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section id="s-home" class="screen">
+    <div class="hero">
+      <div class="logo">A2</div>
+      <h2>ANA 203</h2>
+      <p>General Embryology &middot; <span id="qTotal">0</span> questions</p>
+    </div>
+    <button class="big primary" data-go="setup">&#9654; Start Quiz</button>
+    <button class="big" data-go="topics">&#128218; Topics</button>
+    <button class="big" data-go="progress">&#128200; Progress</button>
+    <button class="big" data-go="settings">&#9881; Settings</button>
+  </section>
+
+  <!-- SETUP -->
+  <section id="s-setup" class="screen" hidden>
+    <h2>Start a quiz</h2>
+    <label class="lbl" for="selTopic">Topic</label>
+    <select id="selTopic"></select>
+    <div class="lbl">Number of questions</div>
+    <div id="countChips" class="chips"></div>
+    <p class="hint" id="setupHint"></p>
+    <button id="btnBegin" class="big primary">Begin Quiz</button>
+  </section>
+
+  <!-- TOPICS -->
+  <section id="s-topics" class="screen" hidden>
+    <h2>Topics</h2>
+    <p class="hint">Tap a topic to practise it.</p>
+    <div id="topicList"></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="s-quiz" class="screen" hidden>
+    <div class="qbar">
+      <span id="qCount">1/20</span>
+      <span id="qTimer" class="timer">00:00</span>
+      <button id="btnPalette" class="small">&#9638; Palette</button>
+    </div>
+    <div class="progress"><div id="progFill"></div></div>
+    <div id="palette" class="palette" hidden></div>
+    <div id="qTopic" class="tag"></div>
+    <h3 id="qText" class="qtext"></h3>
+    <div id="opts"></div>
+    <div id="fb" class="fb" hidden></div>
+    <div class="nav">
+      <button id="btnPrev" class="big">&larr; Previous</button>
+      <button id="btnNext" class="big primary">Next &rarr;</button>
+    </div>
+    <button id="btnQuit" class="link">Quit quiz</button>
+  </section>
+
+  <!-- RESULT -->
+  <section id="s-result" class="screen" hidden>
+    <div class="scorecard">
+      <div id="resScore" class="score">0/0</div>
+      <div id="resPct" class="pct">0%</div>
+      <div id="resBadge" class="badge">PASS</div>
+      <div id="resMeta" class="hint"></div>
+    </div>
+    <button class="big primary" data-go="setup">New Quiz</button>
+    <button class="big" data-go="home">Home</button>
+    <h3>Review answers</h3>
+    <div class="chips">
+      <button class="chip on" data-filter="all">All</button>
+      <button class="chip" data-filter="wrong">Wrong</button>
+      <button class="chip" data-filter="right">Correct</button>
+    </div>
+    <div id="review"></div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section id="s-progress" class="screen" hidden>
+    <h2>Progress</h2>
+    <div class="stats">
+      <div><b id="stAttempts">0</b><span>Attempts</span></div>
+      <div><b id="stBest">0%</b><span>Best score</span></div>
+      <div><b id="stAvg">0%</b><span>Average</span></div>
+    </div>
+    <h3>History</h3>
+    <div id="history"></div>
+    <button id="btnReset" class="big danger">Reset progress</button>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="s-settings" class="screen" hidden>
+    <h2>Settings</h2>
+    <div class="lbl">Theme</div>
+    <div class="chips" id="setTheme">
+      <button class="chip" data-v="light">&#9728; Light</button>
+      <button class="chip" data-v="dark">&#9790; Dark</button>
+    </div>
+    <div class="lbl">Feedback</div>
+    <div class="chips" id="setFeedback">
+      <button class="chip" data-v="instant">Instant</button>
+      <button class="chip" data-v="end">At the end</button>
+    </div>
+    <div class="lbl">Time limit per question</div>
+    <div class="chips" id="setTime">
+      <button class="chip" data-v="0">Off</button>
+      <button class="chip" data-v="30">30s</button>
+      <button class="chip" data-v="60">60s</button>
+      <button class="chip" data-v="90">90s</button>
+    </div>
+    <div class="lbl">Pass mark</div>
+    <div class="chips" id="setPass">
+      <button class="chip" data-v="40">40%</button>
+      <button class="chip" data-v="50">50%</button>
+      <button class="chip" data-v="60">60%</button>
+      <button class="chip" data-v="70">70%</button>
+    </div>
+    <button id="btnInstall" class="big" hidden>Install app</button>
+    <p class="hint" id="offlineMsg"></p>
+  </section>
+</main>
+
+<footer>Developed by Olamdev</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
